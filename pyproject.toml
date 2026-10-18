@@ -1,0 +1,53 @@
+[project]
+name = "distrans-client"
+version = "1.2.0"
+description = "Low-level Python client for the Distrans chat API"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "Distrans contributors" }]
+keywords = ["distrans", "chat", "api", "openapi"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
+dependencies = ["attrs>=22.2", "httpx>=0.28", "websockets>=15"]
+
+[project.urls]
+Homepage = "https://github.com/igorsaux/distrans"
+Source = "https://github.com/igorsaux/distrans-client"
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-asyncio>=0.24", "ruff>=0.9"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/distrans_client"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: requires a running Distrans server"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-exclude = [
+  "src/distrans_client/api",
+  "src/distrans_client/models",
+  "src/distrans_client/client.py",
+  "src/distrans_client/errors.py",
+  "src/distrans_client/types.py",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
