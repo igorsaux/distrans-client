@@ -92,17 +92,17 @@ def sync_detailed(
 ) -> Response[Error | Message]:
     """Edit a message (author only; read_messages required)
 
-     The caller must have `read_messages` on the message's channel and be the author of the message.
-    `content` follows the same rules as POST /channels/{channel_id}/messages. An optional `embeds`
-    replaces the message's embeds: absent leaves them unchanged, an explicit `null` or an empty array
-    clears them, and a non-empty array is validated exactly like POST. Attachments are always derived
-    from `content` and replace the message's attachment set: every `attachment://<file_id>` reference in
-    the new content is a file id (deduplicated, first-appearance order), at most
-    `api.messages.max_attachments` unique ids, each of which must exist. An edit that drops a reference
-    also drops the file association (letting the GC collect it). Mentions (`mention_everyone`,
-    `mentions`, `mention_roles`) are always recomputed from the new `content`; `allowed_mentions` is not
-    accepted on edit because edits never notify. Returns the updated message object (the same shape as
-    `GET`).
+     The caller must have `read_messages` on the message's channel and be the author of the message. The
+    body must contain `content` and/or `embeds`; an absent field keeps the stored value, and the
+    resulting message must have non-empty content or embeds. `content`, when present, follows the same
+    rules as POST /channels/{channel_id}/messages. An explicit `"embeds": null` or an empty `embeds`
+    array clears the embeds; absent keeps them; a non-empty array is validated exactly like POST.
+    Attachments and mentions are always recomputed from the effective content and replace the message's
+    attachment/mention sets: every `attachment://<file_id>` reference in the content is a file id
+    (deduplicated, first-appearance order), at most `api.messages.max_attachments` unique ids, each of
+    which must exist. An edit that drops a reference also drops the file association (letting the GC
+    collect it). `allowed_mentions` is not accepted on edit because edits never notify. Returns the
+    updated message object (the same shape as `GET`).
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -136,17 +136,17 @@ def sync(
 ) -> Error | Message | None:
     """Edit a message (author only; read_messages required)
 
-     The caller must have `read_messages` on the message's channel and be the author of the message.
-    `content` follows the same rules as POST /channels/{channel_id}/messages. An optional `embeds`
-    replaces the message's embeds: absent leaves them unchanged, an explicit `null` or an empty array
-    clears them, and a non-empty array is validated exactly like POST. Attachments are always derived
-    from `content` and replace the message's attachment set: every `attachment://<file_id>` reference in
-    the new content is a file id (deduplicated, first-appearance order), at most
-    `api.messages.max_attachments` unique ids, each of which must exist. An edit that drops a reference
-    also drops the file association (letting the GC collect it). Mentions (`mention_everyone`,
-    `mentions`, `mention_roles`) are always recomputed from the new `content`; `allowed_mentions` is not
-    accepted on edit because edits never notify. Returns the updated message object (the same shape as
-    `GET`).
+     The caller must have `read_messages` on the message's channel and be the author of the message. The
+    body must contain `content` and/or `embeds`; an absent field keeps the stored value, and the
+    resulting message must have non-empty content or embeds. `content`, when present, follows the same
+    rules as POST /channels/{channel_id}/messages. An explicit `"embeds": null` or an empty `embeds`
+    array clears the embeds; absent keeps them; a non-empty array is validated exactly like POST.
+    Attachments and mentions are always recomputed from the effective content and replace the message's
+    attachment/mention sets: every `attachment://<file_id>` reference in the content is a file id
+    (deduplicated, first-appearance order), at most `api.messages.max_attachments` unique ids, each of
+    which must exist. An edit that drops a reference also drops the file association (letting the GC
+    collect it). `allowed_mentions` is not accepted on edit because edits never notify. Returns the
+    updated message object (the same shape as `GET`).
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -175,17 +175,17 @@ async def asyncio_detailed(
 ) -> Response[Error | Message]:
     """Edit a message (author only; read_messages required)
 
-     The caller must have `read_messages` on the message's channel and be the author of the message.
-    `content` follows the same rules as POST /channels/{channel_id}/messages. An optional `embeds`
-    replaces the message's embeds: absent leaves them unchanged, an explicit `null` or an empty array
-    clears them, and a non-empty array is validated exactly like POST. Attachments are always derived
-    from `content` and replace the message's attachment set: every `attachment://<file_id>` reference in
-    the new content is a file id (deduplicated, first-appearance order), at most
-    `api.messages.max_attachments` unique ids, each of which must exist. An edit that drops a reference
-    also drops the file association (letting the GC collect it). Mentions (`mention_everyone`,
-    `mentions`, `mention_roles`) are always recomputed from the new `content`; `allowed_mentions` is not
-    accepted on edit because edits never notify. Returns the updated message object (the same shape as
-    `GET`).
+     The caller must have `read_messages` on the message's channel and be the author of the message. The
+    body must contain `content` and/or `embeds`; an absent field keeps the stored value, and the
+    resulting message must have non-empty content or embeds. `content`, when present, follows the same
+    rules as POST /channels/{channel_id}/messages. An explicit `"embeds": null` or an empty `embeds`
+    array clears the embeds; absent keeps them; a non-empty array is validated exactly like POST.
+    Attachments and mentions are always recomputed from the effective content and replace the message's
+    attachment/mention sets: every `attachment://<file_id>` reference in the content is a file id
+    (deduplicated, first-appearance order), at most `api.messages.max_attachments` unique ids, each of
+    which must exist. An edit that drops a reference also drops the file association (letting the GC
+    collect it). `allowed_mentions` is not accepted on edit because edits never notify. Returns the
+    updated message object (the same shape as `GET`).
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -217,17 +217,17 @@ async def asyncio(
 ) -> Error | Message | None:
     """Edit a message (author only; read_messages required)
 
-     The caller must have `read_messages` on the message's channel and be the author of the message.
-    `content` follows the same rules as POST /channels/{channel_id}/messages. An optional `embeds`
-    replaces the message's embeds: absent leaves them unchanged, an explicit `null` or an empty array
-    clears them, and a non-empty array is validated exactly like POST. Attachments are always derived
-    from `content` and replace the message's attachment set: every `attachment://<file_id>` reference in
-    the new content is a file id (deduplicated, first-appearance order), at most
-    `api.messages.max_attachments` unique ids, each of which must exist. An edit that drops a reference
-    also drops the file association (letting the GC collect it). Mentions (`mention_everyone`,
-    `mentions`, `mention_roles`) are always recomputed from the new `content`; `allowed_mentions` is not
-    accepted on edit because edits never notify. Returns the updated message object (the same shape as
-    `GET`).
+     The caller must have `read_messages` on the message's channel and be the author of the message. The
+    body must contain `content` and/or `embeds`; an absent field keeps the stored value, and the
+    resulting message must have non-empty content or embeds. `content`, when present, follows the same
+    rules as POST /channels/{channel_id}/messages. An explicit `"embeds": null` or an empty `embeds`
+    array clears the embeds; absent keeps them; a non-empty array is validated exactly like POST.
+    Attachments and mentions are always recomputed from the effective content and replace the message's
+    attachment/mention sets: every `attachment://<file_id>` reference in the content is a file id
+    (deduplicated, first-appearance order), at most `api.messages.max_attachments` unique ids, each of
+    which must exist. An edit that drops a reference also drops the file association (letting the GC
+    collect it). `allowed_mentions` is not accepted on edit because edits never notify. Returns the
+    updated message object (the same shape as `GET`).
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)

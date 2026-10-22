@@ -328,6 +328,45 @@ async def test_async_reply_forwards_reply_to_id() -> None:
     assert seen == [{"content": "hi", "reply_to_id": "99"}]
 
 
+async def test_async_get_webhook_message_returns_message() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert request.method == "GET"
+        assert request.url.path == "/api/webhooks/20/token-1/messages/100"
+        return httpx.Response(200, json=_message_payload("100"))
+
+    async with make_client(httpx.MockTransport(handler)) as client:
+        message = await client.get_webhook_message("20", "token-1", "100")
+
+    assert message.id == "100"
+
+
+async def test_async_edit_webhook_message_sends_only_provided_fields() -> None:
+    seen: list[dict] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert request.method == "PATCH"
+        assert request.url.path == "/api/webhooks/20/token-1/messages/100"
+        seen.append(json.loads(request.content))
+        return httpx.Response(200, json=_message_payload("100"))
+
+    async with make_client(httpx.MockTransport(handler)) as client:
+        message = await client.edit_webhook_message("20", "token-1", "100", content="edited")
+        await client.edit_webhook_message("20", "token-1", "100", embeds=None)
+
+    assert message.id == "100"
+    assert seen == [{"content": "edited"}, {"embeds": None}]
+
+
+async def test_async_delete_webhook_message_returns_none() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert request.method == "DELETE"
+        assert request.url.path == "/api/webhooks/20/token-1/messages/100"
+        return httpx.Response(204)
+
+    async with make_client(httpx.MockTransport(handler)) as client:
+        assert await client.delete_webhook_message("20", "token-1", "100") is None
+
+
 async def test_async_iter_guild_emojis_pages_until_short_page() -> None:
     seen: list[str | None] = []
 

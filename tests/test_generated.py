@@ -4,6 +4,11 @@ import importlib
 import pkgutil
 
 from distrans_client import api, models
+from distrans_client.api.webhooks import (
+    delete_webhook_message,
+    edit_webhook_message,
+    get_webhook_message,
+)
 
 
 def _modules(package: object) -> list[str]:
@@ -14,7 +19,16 @@ def _modules(package: object) -> list[str]:
 
 def test_all_operations_are_generated() -> None:
     endpoints = [name for name in _modules(api) if name.count(".") == 3]
-    assert len(endpoints) == 86
+    assert len(endpoints) == 89
+
+
+def test_webhook_message_operations_are_generated() -> None:
+    assert callable(get_webhook_message.sync)
+    assert callable(get_webhook_message.asyncio)
+    assert callable(edit_webhook_message.sync)
+    assert callable(edit_webhook_message.asyncio)
+    assert callable(delete_webhook_message.sync)
+    assert callable(delete_webhook_message.asyncio)
 
 
 def test_tag_packages_import() -> None:

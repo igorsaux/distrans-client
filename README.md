@@ -184,6 +184,21 @@ created `Message`. If a reply target is rejected with `400` and the error messag
 `reply_to_id`, the client retries once without the reply target. Other `400`s and all other
 errors raise `DistransAPIError`.
 
+## Webhook messages
+
+Webhook message operations use the webhook execute token and require no session or channel
+permission check:
+
+```python
+message = client.get_webhook_message(webhook_id, token, message_id)
+edited = client.edit_webhook_message(webhook_id, token, message_id, content="updated")
+client.edit_webhook_message(webhook_id, token, message_id, embeds=None)  # clear embeds
+client.delete_webhook_message(webhook_id, token, message_id)
+```
+
+`edit_webhook_message` accepts `content` and/or `embeds`; omitted fields keep their stored
+values, and `embeds=None` or `[]` clears them. `AsyncDistransClient` mirrors these methods.
+
 ## Retries
 
 Retries are disabled by default for the API. Enable them with a `RetryPolicy`:

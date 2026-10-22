@@ -19,12 +19,13 @@ T = TypeVar("T", bound="EditMessageBody")
 class EditMessageBody:
     """
     Attributes:
-        content (str):
+        content (str | Unset): New content. Absent keeps the current content; when present it may be empty only if the
+            resulting message has embeds.
         embeds (list[Embed] | None | Unset): Replaces the message's embeds. `null` or `[]` clears them; absent leaves
             them unchanged; at most `api.messages.max_embeds` are accepted.
     """
 
-    content: str
+    content: str | Unset = UNSET
     embeds: list[Embed] | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -45,11 +46,9 @@ class EditMessageBody:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "content": content,
-            }
-        )
+        field_dict.update({})
+        if content is not UNSET:
+            field_dict["content"] = content
         if embeds is not UNSET:
             field_dict["embeds"] = embeds
 
@@ -60,7 +59,7 @@ class EditMessageBody:
         from ..models.embed import Embed
 
         d = dict(src_dict)
-        content = d.pop("content")
+        content = d.pop("content", UNSET)
 
         def _parse_embeds(data: object) -> list[Embed] | None | Unset:
             if data is None:

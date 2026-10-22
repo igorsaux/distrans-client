@@ -20,15 +20,16 @@ T = TypeVar("T", bound="PostMessageBody")
 class PostMessageBody:
     """
     Attributes:
-        content (str):
+        content (str | Unset): Optional when non-empty `embeds` are supplied. A content-only message must be non-empty
+            after sanitization.
         reply_to_id (None | str | Unset):
         embeds (list[Embed] | None | Unset): At most `api.messages.max_embeds`; `null` or an empty array means no
-            embeds.
+            embeds. A non-empty array may be supplied without `content`.
         allowed_mentions (AllowedMentions | None | Unset): Filters which mentions parsed from `content` take effect; it
             does not rewrite `content` and never rejects the message. Absent = allow `users`, `roles` and `everyone`.
     """
 
-    content: str
+    content: str | Unset = UNSET
     reply_to_id: None | str | Unset = UNSET
     embeds: list[Embed] | None | Unset = UNSET
     allowed_mentions: AllowedMentions | None | Unset = UNSET
@@ -67,11 +68,9 @@ class PostMessageBody:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "content": content,
-            }
-        )
+        field_dict.update({})
+        if content is not UNSET:
+            field_dict["content"] = content
         if reply_to_id is not UNSET:
             field_dict["reply_to_id"] = reply_to_id
         if embeds is not UNSET:
@@ -87,7 +86,7 @@ class PostMessageBody:
         from ..models.embed import Embed
 
         d = dict(src_dict)
-        content = d.pop("content")
+        content = d.pop("content", UNSET)
 
         def _parse_reply_to_id(data: object) -> None | str | Unset:
             if data is None:

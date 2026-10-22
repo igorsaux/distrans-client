@@ -14,6 +14,7 @@ from .channel_notification_settings_effective_level import (
 from .channel_notification_settings_level import ChannelNotificationSettingsLevel
 from .channel_with_guild import ChannelWithGuild
 from .edit_message_body import EditMessageBody
+from .edit_webhook_message_body import EditWebhookMessageBody
 from .embed import Embed
 from .embed_author import EmbedAuthor
 from .embed_field import EmbedField
@@ -128,6 +129,7 @@ __all__ = (
     "ChannelNotificationSettingsLevel",
     "ChannelWithGuild",
     "EditMessageBody",
+    "EditWebhookMessageBody",
     "Embed",
     "EmbedAuthor",
     "EmbedField",

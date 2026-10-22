@@ -20,12 +20,18 @@ from .api.files import post_file
 from .api.guilds import put_guild_avatar
 from .api.messages import get_channel_pinned_messages, get_messages, post_message
 from .api.users import put_me_avatar
-from .api.webhooks import put_webhook_avatar
+from .api.webhooks import (
+    delete_webhook_message,
+    edit_webhook_message,
+    get_webhook_message,
+    put_webhook_avatar,
+)
 from .client import AuthenticatedClient
 from .exceptions import DistransAPIError, DistransDownloadError, DistransError
 from .gateway import Gateway, build_ssl_context, gateway_url
 from .models.allowed_mentions import AllowedMentions
 from .models.attachment import Attachment
+from .models.edit_webhook_message_body import EditWebhookMessageBody
 from .models.embed import Embed
 from .models.emoji import Emoji
 from .models.error import Error
@@ -331,6 +337,50 @@ class DistransClient:
         )
         value = result.avatar_hash
         return None if isinstance(value, Unset) else value
+
+    def get_webhook_message(self, webhook_id: str, token: str, message_id: str) -> Message:
+        """Get a message sent by a webhook using its execute token."""
+        response = get_webhook_message.sync_detailed(
+            client=self._client,
+            webhook_id=webhook_id,
+            token=token,
+            message_id=message_id,
+        )
+        return _unwrap(response, Message)
+
+    def edit_webhook_message(
+        self,
+        webhook_id: str,
+        token: str,
+        message_id: str,
+        *,
+        content: str | Unset = UNSET,
+        embeds: list[Embed] | None | Unset = UNSET,
+    ) -> Message:
+        """Edit a message sent by a webhook using its execute token.
+
+        Omitted fields keep their stored values; ``embeds=None`` or ``[]``
+        clears the embeds.
+        """
+        body = EditWebhookMessageBody(content=content, embeds=embeds)
+        response = edit_webhook_message.sync_detailed(
+            client=self._client,
+            webhook_id=webhook_id,
+            token=token,
+            message_id=message_id,
+            body=body,
+        )
+        return _unwrap(response, Message)
+
+    def delete_webhook_message(self, webhook_id: str, token: str, message_id: str) -> None:
+        """Delete a message sent by a webhook using its execute token."""
+        response = delete_webhook_message.sync_detailed(
+            client=self._client,
+            webhook_id=webhook_id,
+            token=token,
+            message_id=message_id,
+        )
+        _expect_no_content(response)
 
     def download(self, url: str) -> bytes:
         """GET a public URL (for example an S3 ``public_url``) without the API token."""

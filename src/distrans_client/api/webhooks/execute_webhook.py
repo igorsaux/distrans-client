@@ -89,7 +89,7 @@ def sync_detailed(
     session, no bearer auth, and no channel permission check (mirroring `POST
     /channels/{channel_id}/messages`). The webhook must exist, not be soft-deleted and `token` must hash
     to its stored `token_hash`; anything else is 404. The body is validated exactly like `POST
-    /channels/{channel_id}/messages` (`content`, `reply_to_id`, `embeds`, `mentions`,
+    /channels/{channel_id}/messages` (non-empty `content` and/or `embeds`, `reply_to_id`, `mentions`,
     `allowed_mentions`, and attachments derived from `content`); the stored message has `author_id` null
     and `webhook_id` set. A `message_created` gateway event and push notifications are emitted like a
     user message; the push payload carries the author's `author_id` (null for a webhook), `author_name`,
@@ -135,7 +135,7 @@ def sync(
     session, no bearer auth, and no channel permission check (mirroring `POST
     /channels/{channel_id}/messages`). The webhook must exist, not be soft-deleted and `token` must hash
     to its stored `token_hash`; anything else is 404. The body is validated exactly like `POST
-    /channels/{channel_id}/messages` (`content`, `reply_to_id`, `embeds`, `mentions`,
+    /channels/{channel_id}/messages` (non-empty `content` and/or `embeds`, `reply_to_id`, `mentions`,
     `allowed_mentions`, and attachments derived from `content`); the stored message has `author_id` null
     and `webhook_id` set. A `message_created` gateway event and push notifications are emitted like a
     user message; the push payload carries the author's `author_id` (null for a webhook), `author_name`,
@@ -176,7 +176,7 @@ async def asyncio_detailed(
     session, no bearer auth, and no channel permission check (mirroring `POST
     /channels/{channel_id}/messages`). The webhook must exist, not be soft-deleted and `token` must hash
     to its stored `token_hash`; anything else is 404. The body is validated exactly like `POST
-    /channels/{channel_id}/messages` (`content`, `reply_to_id`, `embeds`, `mentions`,
+    /channels/{channel_id}/messages` (non-empty `content` and/or `embeds`, `reply_to_id`, `mentions`,
     `allowed_mentions`, and attachments derived from `content`); the stored message has `author_id` null
     and `webhook_id` set. A `message_created` gateway event and push notifications are emitted like a
     user message; the push payload carries the author's `author_id` (null for a webhook), `author_name`,
@@ -220,7 +220,7 @@ async def asyncio(
     session, no bearer auth, and no channel permission check (mirroring `POST
     /channels/{channel_id}/messages`). The webhook must exist, not be soft-deleted and `token` must hash
     to its stored `token_hash`; anything else is 404. The body is validated exactly like `POST
-    /channels/{channel_id}/messages` (`content`, `reply_to_id`, `embeds`, `mentions`,
+    /channels/{channel_id}/messages` (non-empty `content` and/or `embeds`, `reply_to_id`, `mentions`,
     `allowed_mentions`, and attachments derived from `content`); the stored message has `author_id` null
     and `webhook_id` set. A `message_created` gateway event and push notifications are emitted like a
     user message; the push payload carries the author's `author_id` (null for a webhook), `author_name`,

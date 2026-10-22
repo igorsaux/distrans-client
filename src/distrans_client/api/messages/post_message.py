@@ -92,10 +92,11 @@ def sync_detailed(
 ) -> Response[Error | Message]:
     """Send a message (send_messages required)
 
-     `content` follows `format: message-body`: it must be valid UTF-8; forbidden codepoints (controls
-    except \\n/\\t, BiDi overrides, zero-width, tag characters are kept — see the conventions section)
-    are stripped server-side before storage. After stripping, the content must not be empty and must not
-    exceed `api.messages.max_codepoints_per_message` codepoints. An optional `reply_to_id` must
+     The body must contain non-empty `content` and/or non-empty `embeds`. `content` follows `format:
+    message-body`: it must be valid UTF-8; forbidden codepoints (controls except \\n/\\t, BiDi
+    overrides, zero-width, tag characters are kept — see the conventions section) are stripped server-
+    side before storage. After stripping, a content-only message must not be empty and the content must
+    not exceed `api.messages.max_codepoints_per_message` codepoints. An optional `reply_to_id` must
     reference an existing (not deleted) message in the same channel; a missing, deleted or other-channel
     target is rejected with 400 "'reply_to_id' is invalid". An optional `embeds` is a list of at most
     `api.messages.max_embeds` rich embeds (see the `Embed` schema); `null` or `[]` stores no embeds.
@@ -135,10 +136,11 @@ def sync(
 ) -> Error | Message | None:
     """Send a message (send_messages required)
 
-     `content` follows `format: message-body`: it must be valid UTF-8; forbidden codepoints (controls
-    except \\n/\\t, BiDi overrides, zero-width, tag characters are kept — see the conventions section)
-    are stripped server-side before storage. After stripping, the content must not be empty and must not
-    exceed `api.messages.max_codepoints_per_message` codepoints. An optional `reply_to_id` must
+     The body must contain non-empty `content` and/or non-empty `embeds`. `content` follows `format:
+    message-body`: it must be valid UTF-8; forbidden codepoints (controls except \\n/\\t, BiDi
+    overrides, zero-width, tag characters are kept — see the conventions section) are stripped server-
+    side before storage. After stripping, a content-only message must not be empty and the content must
+    not exceed `api.messages.max_codepoints_per_message` codepoints. An optional `reply_to_id` must
     reference an existing (not deleted) message in the same channel; a missing, deleted or other-channel
     target is rejected with 400 "'reply_to_id' is invalid". An optional `embeds` is a list of at most
     `api.messages.max_embeds` rich embeds (see the `Embed` schema); `null` or `[]` stores no embeds.
@@ -173,10 +175,11 @@ async def asyncio_detailed(
 ) -> Response[Error | Message]:
     """Send a message (send_messages required)
 
-     `content` follows `format: message-body`: it must be valid UTF-8; forbidden codepoints (controls
-    except \\n/\\t, BiDi overrides, zero-width, tag characters are kept — see the conventions section)
-    are stripped server-side before storage. After stripping, the content must not be empty and must not
-    exceed `api.messages.max_codepoints_per_message` codepoints. An optional `reply_to_id` must
+     The body must contain non-empty `content` and/or non-empty `embeds`. `content` follows `format:
+    message-body`: it must be valid UTF-8; forbidden codepoints (controls except \\n/\\t, BiDi
+    overrides, zero-width, tag characters are kept — see the conventions section) are stripped server-
+    side before storage. After stripping, a content-only message must not be empty and the content must
+    not exceed `api.messages.max_codepoints_per_message` codepoints. An optional `reply_to_id` must
     reference an existing (not deleted) message in the same channel; a missing, deleted or other-channel
     target is rejected with 400 "'reply_to_id' is invalid". An optional `embeds` is a list of at most
     `api.messages.max_embeds` rich embeds (see the `Embed` schema); `null` or `[]` stores no embeds.
@@ -214,10 +217,11 @@ async def asyncio(
 ) -> Error | Message | None:
     """Send a message (send_messages required)
 
-     `content` follows `format: message-body`: it must be valid UTF-8; forbidden codepoints (controls
-    except \\n/\\t, BiDi overrides, zero-width, tag characters are kept — see the conventions section)
-    are stripped server-side before storage. After stripping, the content must not be empty and must not
-    exceed `api.messages.max_codepoints_per_message` codepoints. An optional `reply_to_id` must
+     The body must contain non-empty `content` and/or non-empty `embeds`. `content` follows `format:
+    message-body`: it must be valid UTF-8; forbidden codepoints (controls except \\n/\\t, BiDi
+    overrides, zero-width, tag characters are kept — see the conventions section) are stripped server-
+    side before storage. After stripping, a content-only message must not be empty and the content must
+    not exceed `api.messages.max_codepoints_per_message` codepoints. An optional `reply_to_id` must
     reference an existing (not deleted) message in the same channel; a missing, deleted or other-channel
     target is rejected with 400 "'reply_to_id' is invalid". An optional `embeds` is a list of at most
     `api.messages.max_embeds` rich embeds (see the `Embed` schema); `null` or `[]` stores no embeds.
