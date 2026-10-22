@@ -18,7 +18,7 @@ from .api.auth import post_auth_token, post_auth_token_logout, post_auth_token_r
 from .api.emojis import get_guild_emojis, post_guild_emoji, update_emoji_icon
 from .api.files import post_file
 from .api.guilds import put_guild_avatar
-from .api.messages import get_messages, post_message
+from .api.messages import get_channel_pinned_messages, get_messages, post_message
 from .api.users import put_me_avatar
 from .api.webhooks import put_webhook_avatar
 from .client import AuthenticatedClient
@@ -424,6 +424,29 @@ class DistransClient:
         """
         return self._iter_messages_before(channel_id, before, _validate_page_size(page_size))
 
+    def iter_pinned_messages_after(
+        self,
+        channel_id: str,
+        after: str,
+        *,
+        page_size: int = 100,
+    ) -> Iterator[Message]:
+        """Iterate over pinned messages after ``after``, oldest to newest."""
+        return self._iter_pinned_messages_after(channel_id, after, _validate_page_size(page_size))
+
+    def iter_pinned_messages_before(
+        self,
+        channel_id: str,
+        before: str | None = None,
+        *,
+        page_size: int = 100,
+    ) -> Iterator[Message]:
+        """Iterate over pinned messages before ``before``, newest to oldest.
+
+        ``None`` starts from the latest pinned message.
+        """
+        return self._iter_pinned_messages_before(channel_id, before, _validate_page_size(page_size))
+
     def _iter_guild_emojis(self, guild_id: str, page_size: int) -> Iterator[Emoji]:
         cursor: str | None = None
         while True:
@@ -466,6 +489,56 @@ class DistransClient:
         cursor = before
         while True:
             response = get_messages.sync_detailed(
+                client=self._client,
+                channel_id=channel_id,
+                limit=page_size,
+                before=cursor if cursor is not None else UNSET,
+            )
+            page = _list_page(response)
+            if not page:
+                break
+
+            # The API returns ascending pages; reverse each page so the iterator
+            # is newest-to-oldest overall.
+            yield from reversed(page)
+            oldest_id = page[0].id
+            if cursor is not None and int(oldest_id) >= int(cursor):
+                break
+            cursor = oldest_id
+
+    def _iter_pinned_messages_after(
+        self,
+        channel_id: str,
+        after: str,
+        page_size: int,
+    ) -> Iterator[Message]:
+        cursor = after
+        while True:
+            response = get_channel_pinned_messages.sync_detailed(
+                client=self._client,
+                channel_id=channel_id,
+                limit=page_size,
+                after=cursor,
+            )
+            page = _list_page(response)
+            if not page:
+                break
+            yield from page
+
+            last_id = page[-1].id
+            if int(last_id) <= int(cursor):
+                break
+            cursor = last_id
+
+    def _iter_pinned_messages_before(
+        self,
+        channel_id: str,
+        before: str | None,
+        page_size: int,
+    ) -> Iterator[Message]:
+        cursor = before
+        while True:
+            response = get_channel_pinned_messages.sync_detailed(
                 client=self._client,
                 channel_id=channel_id,
                 limit=page_size,

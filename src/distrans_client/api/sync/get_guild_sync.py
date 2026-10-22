@@ -83,11 +83,13 @@ def sync_detailed(
     """Changed guild entities since a cursor
 
      Per-guild changed-since delta. Every field is an array of ids of present rows whose `updated_at` is
-    newer than `since` (upserts); entity bodies are never returned. `overwrites` carry their
-    `channel_id` because `(target_type, target_id)` is not unique within a guild. `member_roles` is the
-    caller's complete current role-id set (not filtered by `since`), because grant/revoke hard-delete
-    the row and a delta cannot express revocation. Hard deletions are not listed; the client reconciles
-    them with a periodic full refetch or gateway events. Metadata is readable by any authenticated user.
+    newer than `since` (upserts); entity bodies are never returned. `channels` includes any channel
+    change, including channels whose messages were inserted, edited, or soft-deleted since `since`.
+    `overwrites` carry their `channel_id` because `(target_type, target_id)` is not unique within a
+    guild. `member_roles` is the caller's complete current role-id set (not filtered by `since`),
+    because grant/revoke hard-delete the row and a delta cannot express revocation. Hard deletions are
+    not listed; the client reconciles them with a periodic full refetch or gateway events. Metadata is
+    readable by any authenticated user.
 
     Args:
         guild_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -122,11 +124,13 @@ def sync(
     """Changed guild entities since a cursor
 
      Per-guild changed-since delta. Every field is an array of ids of present rows whose `updated_at` is
-    newer than `since` (upserts); entity bodies are never returned. `overwrites` carry their
-    `channel_id` because `(target_type, target_id)` is not unique within a guild. `member_roles` is the
-    caller's complete current role-id set (not filtered by `since`), because grant/revoke hard-delete
-    the row and a delta cannot express revocation. Hard deletions are not listed; the client reconciles
-    them with a periodic full refetch or gateway events. Metadata is readable by any authenticated user.
+    newer than `since` (upserts); entity bodies are never returned. `channels` includes any channel
+    change, including channels whose messages were inserted, edited, or soft-deleted since `since`.
+    `overwrites` carry their `channel_id` because `(target_type, target_id)` is not unique within a
+    guild. `member_roles` is the caller's complete current role-id set (not filtered by `since`),
+    because grant/revoke hard-delete the row and a delta cannot express revocation. Hard deletions are
+    not listed; the client reconciles them with a periodic full refetch or gateway events. Metadata is
+    readable by any authenticated user.
 
     Args:
         guild_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -156,11 +160,13 @@ async def asyncio_detailed(
     """Changed guild entities since a cursor
 
      Per-guild changed-since delta. Every field is an array of ids of present rows whose `updated_at` is
-    newer than `since` (upserts); entity bodies are never returned. `overwrites` carry their
-    `channel_id` because `(target_type, target_id)` is not unique within a guild. `member_roles` is the
-    caller's complete current role-id set (not filtered by `since`), because grant/revoke hard-delete
-    the row and a delta cannot express revocation. Hard deletions are not listed; the client reconciles
-    them with a periodic full refetch or gateway events. Metadata is readable by any authenticated user.
+    newer than `since` (upserts); entity bodies are never returned. `channels` includes any channel
+    change, including channels whose messages were inserted, edited, or soft-deleted since `since`.
+    `overwrites` carry their `channel_id` because `(target_type, target_id)` is not unique within a
+    guild. `member_roles` is the caller's complete current role-id set (not filtered by `since`),
+    because grant/revoke hard-delete the row and a delta cannot express revocation. Hard deletions are
+    not listed; the client reconciles them with a periodic full refetch or gateway events. Metadata is
+    readable by any authenticated user.
 
     Args:
         guild_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -193,11 +199,13 @@ async def asyncio(
     """Changed guild entities since a cursor
 
      Per-guild changed-since delta. Every field is an array of ids of present rows whose `updated_at` is
-    newer than `since` (upserts); entity bodies are never returned. `overwrites` carry their
-    `channel_id` because `(target_type, target_id)` is not unique within a guild. `member_roles` is the
-    caller's complete current role-id set (not filtered by `since`), because grant/revoke hard-delete
-    the row and a delta cannot express revocation. Hard deletions are not listed; the client reconciles
-    them with a periodic full refetch or gateway events. Metadata is readable by any authenticated user.
+    newer than `since` (upserts); entity bodies are never returned. `channels` includes any channel
+    change, including channels whose messages were inserted, edited, or soft-deleted since `since`.
+    `overwrites` carry their `channel_id` because `(target_type, target_id)` is not unique within a
+    guild. `member_roles` is the caller's complete current role-id set (not filtered by `since`),
+    because grant/revoke hard-delete the row and a delta cannot express revocation. Hard deletions are
+    not listed; the client reconciles them with a periodic full refetch or gateway events. Metadata is
+    readable by any authenticated user.
 
     Args:
         guild_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)

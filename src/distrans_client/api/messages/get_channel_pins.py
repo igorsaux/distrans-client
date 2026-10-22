@@ -95,7 +95,8 @@ def sync_detailed(
     """List pinned message ids (keyset pagination)
 
      Returns the ids (decimal strings, ascending) of the channel's pinned non-deleted messages. `before`
-    and `after` are mutually exclusive.
+    and `after` are mutually exclusive. Use `/channels/{channel_id}/pins/messages` to fetch the full
+    pinned messages in one response.
 
     Args:
         channel_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -136,7 +137,8 @@ def sync(
     """List pinned message ids (keyset pagination)
 
      Returns the ids (decimal strings, ascending) of the channel's pinned non-deleted messages. `before`
-    and `after` are mutually exclusive.
+    and `after` are mutually exclusive. Use `/channels/{channel_id}/pins/messages` to fetch the full
+    pinned messages in one response.
 
     Args:
         channel_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -172,7 +174,8 @@ async def asyncio_detailed(
     """List pinned message ids (keyset pagination)
 
      Returns the ids (decimal strings, ascending) of the channel's pinned non-deleted messages. `before`
-    and `after` are mutually exclusive.
+    and `after` are mutually exclusive. Use `/channels/{channel_id}/pins/messages` to fetch the full
+    pinned messages in one response.
 
     Args:
         channel_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -211,7 +214,8 @@ async def asyncio(
     """List pinned message ids (keyset pagination)
 
      Returns the ids (decimal strings, ascending) of the channel's pinned non-deleted messages. `before`
-    and `after` are mutually exclusive.
+    and `after` are mutually exclusive. Use `/channels/{channel_id}/pins/messages` to fetch the full
+    pinned messages in one response.
 
     Args:
         channel_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)

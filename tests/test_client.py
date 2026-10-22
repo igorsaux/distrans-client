@@ -368,6 +368,10 @@ def test_pagination_page_size_validation(page_size: int) -> None:
             client.iter_messages_after("1", "0", page_size=page_size)
         with pytest.raises(ValueError):
             client.iter_messages_before("1", page_size=page_size)
+        with pytest.raises(ValueError):
+            client.iter_pinned_messages_after("1", "0", page_size=page_size)
+        with pytest.raises(ValueError):
+            client.iter_pinned_messages_before("1", page_size=page_size)
 
 
 def test_iter_messages_after_pages_ascending() -> None:
@@ -408,6 +412,52 @@ def test_iter_messages_before_pages_descending() -> None:
     assert seen == [None, "3", "1"]
 
 
+def test_iter_pinned_messages_after_pages_ascending() -> None:
+    seen: list[tuple[str, str | None]] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        after = request.url.params.get("after")
+        seen.append((request.url.path, after))
+        if after == "2":
+            return httpx.Response(200, json=[_message_payload("3"), _message_payload("4")])
+        if after == "4":
+            return httpx.Response(200, json=[])
+        return httpx.Response(200, json=[_message_payload("1"), _message_payload("2")])
+
+    with make_client(httpx.MockTransport(handler)) as client:
+        messages = list(client.iter_pinned_messages_after("10", "0", page_size=2))
+
+    assert [message.id for message in messages] == ["1", "2", "3", "4"]
+    assert seen == [
+        ("/api/channels/10/pins/messages", "0"),
+        ("/api/channels/10/pins/messages", "2"),
+        ("/api/channels/10/pins/messages", "4"),
+    ]
+
+
+def test_iter_pinned_messages_before_pages_descending() -> None:
+    seen: list[tuple[str, str | None]] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        before = request.url.params.get("before")
+        seen.append((request.url.path, before))
+        if before is None:
+            return httpx.Response(200, json=[_message_payload("3"), _message_payload("4")])
+        if before == "3":
+            return httpx.Response(200, json=[_message_payload("1"), _message_payload("2")])
+        return httpx.Response(200, json=[])
+
+    with make_client(httpx.MockTransport(handler)) as client:
+        messages = list(client.iter_pinned_messages_before("10", page_size=2))
+
+    assert [message.id for message in messages] == ["4", "3", "2", "1"]
+    assert seen == [
+        ("/api/channels/10/pins/messages", None),
+        ("/api/channels/10/pins/messages", "3"),
+        ("/api/channels/10/pins/messages", "1"),
+    ]
+
+
 def test_pagination_error_page_raises_api_error() -> None:
     def handler(request: httpx.Request) -> httpx.Response:
         return httpx.Response(403, json={"message": "Missing permissions"})
@@ -415,6 +465,18 @@ def test_pagination_error_page_raises_api_error() -> None:
     with make_client(httpx.MockTransport(handler)) as client:
         with pytest.raises(DistransAPIError) as raised:
             list(client.iter_messages_after("10", "0"))
+
+    assert raised.value.status_code == 403
+    assert raised.value.message == "Missing permissions"
+
+
+def test_pinned_pagination_error_page_raises_api_error() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(403, json={"message": "Missing permissions"})
+
+    with make_client(httpx.MockTransport(handler)) as client:
+        with pytest.raises(DistransAPIError) as raised:
+            list(client.iter_pinned_messages_after("10", "0"))
 
     assert raised.value.status_code == 403
     assert raised.value.message == "Missing permissions"

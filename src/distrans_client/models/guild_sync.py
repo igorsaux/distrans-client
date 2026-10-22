@@ -19,7 +19,8 @@ class GuildSync:
     Attributes:
         updated_at (int): Server cursor: the database `now()` captured at query start, in epoch milliseconds. Store it
             and pass it as the next `since`.
-        channels (list[str]):
+        channels (list[str]): Channels changed in any way since the cursor, including channels with message inserts,
+            edits, or soft deletes.
         roles (list[str]):
         emojis (list[str]):
         overwrites (list[GuildSyncOverwritesItem]):

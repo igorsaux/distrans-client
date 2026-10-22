@@ -153,12 +153,20 @@ for message in client.iter_messages_after(channel_id, after=last_seen_id):
 
 for message in client.iter_messages_before(channel_id):
     ...  # newest to oldest; omit `before` to start at the latest message
+
+for message in client.iter_pinned_messages_after(channel_id, after=last_seen_id):
+    ...  # oldest to newest
+
+for message in client.iter_pinned_messages_before(channel_id):
+    ...  # newest to oldest; omit `before` to start at the latest pinned message
 ```
 
 `page_size` defaults to `100` and must be between `1` and `100`; other values raise
 `ValueError`. Iterators stop on an empty page or when the keyset cursor stops advancing.
 They also tolerate servers configured with a lower message limit, so a short page is not
 treated as the end of history. A documented error page raises `DistransAPIError`.
+Pinned-message iterators return only pinned, non-deleted messages and are also available
+on `AsyncDistransClient`.
 
 ## Sending messages and replies
 

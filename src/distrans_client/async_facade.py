@@ -17,7 +17,7 @@ from .api.auth import post_auth_token, post_auth_token_logout, post_auth_token_r
 from .api.emojis import get_guild_emojis, post_guild_emoji, update_emoji_icon
 from .api.files import post_file
 from .api.guilds import put_guild_avatar
-from .api.messages import get_messages, post_message
+from .api.messages import get_channel_pinned_messages, get_messages, post_message
 from .api.users import put_me_avatar
 from .api.webhooks import put_webhook_avatar
 from .client import AuthenticatedClient
@@ -373,6 +373,29 @@ class AsyncDistransClient:
         """
         return self._iter_messages_before(channel_id, before, _validate_page_size(page_size))
 
+    def iter_pinned_messages_after(
+        self,
+        channel_id: str,
+        after: str,
+        *,
+        page_size: int = 100,
+    ) -> AsyncIterator[Message]:
+        """Iterate over pinned messages after ``after``, oldest to newest."""
+        return self._iter_pinned_messages_after(channel_id, after, _validate_page_size(page_size))
+
+    def iter_pinned_messages_before(
+        self,
+        channel_id: str,
+        before: str | None = None,
+        *,
+        page_size: int = 100,
+    ) -> AsyncIterator[Message]:
+        """Iterate over pinned messages before ``before``, newest to oldest.
+
+        ``None`` starts from the latest pinned message.
+        """
+        return self._iter_pinned_messages_before(channel_id, before, _validate_page_size(page_size))
+
     async def _iter_guild_emojis(self, guild_id: str, page_size: int) -> AsyncIterator[Emoji]:
         cursor: str | None = None
         while True:
@@ -422,6 +445,58 @@ class AsyncDistransClient:
         cursor = before
         while True:
             response = await get_messages.asyncio_detailed(
+                client=self._client,
+                channel_id=channel_id,
+                limit=page_size,
+                before=cursor if cursor is not None else UNSET,
+            )
+            page = _list_page(response)
+            if not page:
+                break
+
+            # The API returns ascending pages; reverse each page so the iterator
+            # is newest-to-oldest overall.
+            for message in reversed(page):
+                yield message
+            oldest_id = page[0].id
+            if cursor is not None and int(oldest_id) >= int(cursor):
+                break
+            cursor = oldest_id
+
+    async def _iter_pinned_messages_after(
+        self,
+        channel_id: str,
+        after: str,
+        page_size: int,
+    ) -> AsyncIterator[Message]:
+        cursor = after
+        while True:
+            response = await get_channel_pinned_messages.asyncio_detailed(
+                client=self._client,
+                channel_id=channel_id,
+                limit=page_size,
+                after=cursor,
+            )
+            page = _list_page(response)
+            if not page:
+                break
+            for message in page:
+                yield message
+
+            last_id = page[-1].id
+            if int(last_id) <= int(cursor):
+                break
+            cursor = last_id
+
+    async def _iter_pinned_messages_before(
+        self,
+        channel_id: str,
+        before: str | None,
+        page_size: int,
+    ) -> AsyncIterator[Message]:
+        cursor = before
+        while True:
+            response = await get_channel_pinned_messages.asyncio_detailed(
                 client=self._client,
                 channel_id=channel_id,
                 limit=page_size,

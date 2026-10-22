@@ -14,7 +14,7 @@ def _modules(package: object) -> list[str]:
 
 def test_all_operations_are_generated() -> None:
     endpoints = [name for name in _modules(api) if name.count(".") == 3]
-    assert len(endpoints) == 85
+    assert len(endpoints) == 86
 
 
 def test_tag_packages_import() -> None:
