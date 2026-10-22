@@ -91,12 +91,14 @@ def sync_detailed(
     unicode_emoji: str | Unset = UNSET,
     user_id: str | Unset = UNSET,
 ) -> Response[Any | Error]:
-    """Remove a reaction (own freely; another user's with delete_reactions and a strictly higher role)
+    """Remove a reaction (read_messages required; another user's also requires delete_reactions and a
+    strictly higher role)
 
-     Removes the caller's reaction with the given emoji; with no emoji parameter, removes all of the
-    caller's reactions on the message. With `user_id`, removes that user's reaction instead, which
-    requires `delete_reactions` on the channel and being strictly higher in the role hierarchy than the
-    target. Idempotent (a missing reaction is still 204).
+     The caller must have `read_messages` on the message's channel. Removes the caller's reaction with
+    the given emoji; with no emoji parameter, removes all of the caller's reactions on the message. With
+    `user_id`, removes that user's reaction instead, which additionally requires `delete_reactions` on
+    the channel and being strictly higher in the role hierarchy than the target. Idempotent (a missing
+    reaction is still 204).
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -134,12 +136,14 @@ def sync(
     unicode_emoji: str | Unset = UNSET,
     user_id: str | Unset = UNSET,
 ) -> Any | Error | None:
-    """Remove a reaction (own freely; another user's with delete_reactions and a strictly higher role)
+    """Remove a reaction (read_messages required; another user's also requires delete_reactions and a
+    strictly higher role)
 
-     Removes the caller's reaction with the given emoji; with no emoji parameter, removes all of the
-    caller's reactions on the message. With `user_id`, removes that user's reaction instead, which
-    requires `delete_reactions` on the channel and being strictly higher in the role hierarchy than the
-    target. Idempotent (a missing reaction is still 204).
+     The caller must have `read_messages` on the message's channel. Removes the caller's reaction with
+    the given emoji; with no emoji parameter, removes all of the caller's reactions on the message. With
+    `user_id`, removes that user's reaction instead, which additionally requires `delete_reactions` on
+    the channel and being strictly higher in the role hierarchy than the target. Idempotent (a missing
+    reaction is still 204).
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -172,12 +176,14 @@ async def asyncio_detailed(
     unicode_emoji: str | Unset = UNSET,
     user_id: str | Unset = UNSET,
 ) -> Response[Any | Error]:
-    """Remove a reaction (own freely; another user's with delete_reactions and a strictly higher role)
+    """Remove a reaction (read_messages required; another user's also requires delete_reactions and a
+    strictly higher role)
 
-     Removes the caller's reaction with the given emoji; with no emoji parameter, removes all of the
-    caller's reactions on the message. With `user_id`, removes that user's reaction instead, which
-    requires `delete_reactions` on the channel and being strictly higher in the role hierarchy than the
-    target. Idempotent (a missing reaction is still 204).
+     The caller must have `read_messages` on the message's channel. Removes the caller's reaction with
+    the given emoji; with no emoji parameter, removes all of the caller's reactions on the message. With
+    `user_id`, removes that user's reaction instead, which additionally requires `delete_reactions` on
+    the channel and being strictly higher in the role hierarchy than the target. Idempotent (a missing
+    reaction is still 204).
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -213,12 +219,14 @@ async def asyncio(
     unicode_emoji: str | Unset = UNSET,
     user_id: str | Unset = UNSET,
 ) -> Any | Error | None:
-    """Remove a reaction (own freely; another user's with delete_reactions and a strictly higher role)
+    """Remove a reaction (read_messages required; another user's also requires delete_reactions and a
+    strictly higher role)
 
-     Removes the caller's reaction with the given emoji; with no emoji parameter, removes all of the
-    caller's reactions on the message. With `user_id`, removes that user's reaction instead, which
-    requires `delete_reactions` on the channel and being strictly higher in the role hierarchy than the
-    target. Idempotent (a missing reaction is still 204).
+     The caller must have `read_messages` on the message's channel. Removes the caller's reaction with
+    the given emoji; with no emoji parameter, removes all of the caller's reactions on the message. With
+    `user_id`, removes that user's reaction instead, which additionally requires `delete_reactions` on
+    the channel and being strictly higher in the role hierarchy than the target. Idempotent (a missing
+    reaction is still 204).
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)

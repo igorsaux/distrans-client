@@ -88,7 +88,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: ReactionRequest,
 ) -> Response[Any | Error]:
-    """Add your own reaction (add_reactions required, idempotent)
+    """Add your own reaction (read_messages and add_reactions required, idempotent)
 
      Adds the caller's reaction. Re-adding the same emoji is idempotent (still 204). A custom `emoji_id`
     must belong to the message's guild. `unicode_emoji` must be exactly one emoji sequence in any
@@ -128,7 +128,7 @@ def sync(
     client: AuthenticatedClient,
     body: ReactionRequest,
 ) -> Any | Error | None:
-    """Add your own reaction (add_reactions required, idempotent)
+    """Add your own reaction (read_messages and add_reactions required, idempotent)
 
      Adds the caller's reaction. Re-adding the same emoji is idempotent (still 204). A custom `emoji_id`
     must belong to the message's guild. `unicode_emoji` must be exactly one emoji sequence in any
@@ -163,7 +163,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: ReactionRequest,
 ) -> Response[Any | Error]:
-    """Add your own reaction (add_reactions required, idempotent)
+    """Add your own reaction (read_messages and add_reactions required, idempotent)
 
      Adds the caller's reaction. Re-adding the same emoji is idempotent (still 204). A custom `emoji_id`
     must belong to the message's guild. `unicode_emoji` must be exactly one emoji sequence in any
@@ -201,7 +201,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: ReactionRequest,
 ) -> Any | Error | None:
-    """Add your own reaction (add_reactions required, idempotent)
+    """Add your own reaction (read_messages and add_reactions required, idempotent)
 
      Adds the caller's reaction. Re-adding the same emoji is idempotent (still 204). A custom `emoji_id`
     must belong to the message's guild. `unicode_emoji` must be exactly one emoji sequence in any

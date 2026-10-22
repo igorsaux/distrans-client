@@ -76,7 +76,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Any | Error]:
-    """Pin a message (add_pins required)
+    """Pin a message (read_messages and add_pins required)
 
      Idempotent. The message must exist in the path channel and not be deleted. A real `false -> true`
     transition dispatches a `message_pinned` gateway event.
@@ -111,7 +111,7 @@ def sync(
     *,
     client: AuthenticatedClient,
 ) -> Any | Error | None:
-    """Pin a message (add_pins required)
+    """Pin a message (read_messages and add_pins required)
 
      Idempotent. The message must exist in the path channel and not be deleted. A real `false -> true`
     transition dispatches a `message_pinned` gateway event.
@@ -141,7 +141,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Any | Error]:
-    """Pin a message (add_pins required)
+    """Pin a message (read_messages and add_pins required)
 
      Idempotent. The message must exist in the path channel and not be deleted. A real `false -> true`
     transition dispatches a `message_pinned` gateway event.
@@ -174,7 +174,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
 ) -> Any | Error | None:
-    """Pin a message (add_pins required)
+    """Pin a message (read_messages and add_pins required)
 
      Idempotent. The message must exist in the path channel and not be deleted. A real `false -> true`
     transition dispatches a `message_pinned` gateway event.

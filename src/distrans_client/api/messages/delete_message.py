@@ -73,11 +73,13 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Any | Error]:
-    """Delete a message (author, or a strictly higher moderator with delete_messages)
+    """Delete a message (read_messages required; author, or a strictly higher moderator with
+    delete_messages)
 
-     The author can always delete the own message without any permissions. A non-author needs
-    delete_messages on the message's channel and must be strictly higher in the role hierarchy than the
-    author. Deletion is a soft delete: content is wiped and the message becomes anonymous.
+     The caller must have `read_messages` on the message's channel. The author may then delete the own
+    message without any further permissions. A non-author also needs delete_messages on the message's
+    channel and must be strictly higher in the role hierarchy than the author. Deletion is a soft
+    delete: content is wiped and the message becomes anonymous.
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -106,11 +108,13 @@ def sync(
     *,
     client: AuthenticatedClient,
 ) -> Any | Error | None:
-    """Delete a message (author, or a strictly higher moderator with delete_messages)
+    """Delete a message (read_messages required; author, or a strictly higher moderator with
+    delete_messages)
 
-     The author can always delete the own message without any permissions. A non-author needs
-    delete_messages on the message's channel and must be strictly higher in the role hierarchy than the
-    author. Deletion is a soft delete: content is wiped and the message becomes anonymous.
+     The caller must have `read_messages` on the message's channel. The author may then delete the own
+    message without any further permissions. A non-author also needs delete_messages on the message's
+    channel and must be strictly higher in the role hierarchy than the author. Deletion is a soft
+    delete: content is wiped and the message becomes anonymous.
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -134,11 +138,13 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Any | Error]:
-    """Delete a message (author, or a strictly higher moderator with delete_messages)
+    """Delete a message (read_messages required; author, or a strictly higher moderator with
+    delete_messages)
 
-     The author can always delete the own message without any permissions. A non-author needs
-    delete_messages on the message's channel and must be strictly higher in the role hierarchy than the
-    author. Deletion is a soft delete: content is wiped and the message becomes anonymous.
+     The caller must have `read_messages` on the message's channel. The author may then delete the own
+    message without any further permissions. A non-author also needs delete_messages on the message's
+    channel and must be strictly higher in the role hierarchy than the author. Deletion is a soft
+    delete: content is wiped and the message becomes anonymous.
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
@@ -165,11 +171,13 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
 ) -> Any | Error | None:
-    """Delete a message (author, or a strictly higher moderator with delete_messages)
+    """Delete a message (read_messages required; author, or a strictly higher moderator with
+    delete_messages)
 
-     The author can always delete the own message without any permissions. A non-author needs
-    delete_messages on the message's channel and must be strictly higher in the role hierarchy than the
-    author. Deletion is a soft delete: content is wiped and the message becomes anonymous.
+     The caller must have `read_messages` on the message's channel. The author may then delete the own
+    message without any further permissions. A non-author also needs delete_messages on the message's
+    channel and must be strictly higher in the role hierarchy than the author. Deletion is a soft
+    delete: content is wiped and the message becomes anonymous.
 
     Args:
         message_id (str): Decimal string of a 64-bit snowflake ID (JS BigInt compatible)
